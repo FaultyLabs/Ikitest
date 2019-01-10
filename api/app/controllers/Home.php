@@ -11,18 +11,6 @@
       $data = [
         'title' => 'Home Page'
       ];
-      echo json_encode($data);
-    }
-
-    public function about(){
-      $data = [
-        'title' => 'About Page'
-      ];
-      
-      $this->view('about', $data);
-    }
-
-    public function contact(){
-      $this->view('contact');
+      $this->view('index', $data);
     }
   }

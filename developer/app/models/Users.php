@@ -11,11 +11,19 @@
         $this->phone = $params->phone;
         $this->address = $params->address;
         $this->stateId = $params->stateid;
+        $this->status = '0';
+        $this->isBlocked = '0';
+        App::debug($this, true);
         $this->save();
       }
     }
 
     public function user_authentication($email = '', $password = ''){
+    }
 
+    public function update($params){
+      if(is_object($params)){
+
+      }
     }
   }

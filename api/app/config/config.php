@@ -48,5 +48,13 @@
 
   //Database Password
   define('DB_PASS',  $password);
+
+  /**
+   * API SETTINGS
+   */
+  //API Key
+  define('API_KEY',  $apikey);
+  //API PASSCODE
+  define('API_PASS',  $apipass);
   
   unset($config);

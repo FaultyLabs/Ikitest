@@ -36,7 +36,7 @@
 
     public function getBodyParams(){
       if($this->getMethod() == 'POST'){
-        $this->_bodyParams = $_POST;
+        $this->_bodyParams = (!empty($_POST)) ? $_POST : file_get_contents("php://input");
       }
     }
 

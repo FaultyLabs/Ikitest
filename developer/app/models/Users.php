@@ -32,7 +32,7 @@
       $this->status = '0';
       $this->isBlocked = '0'; */
       //var_dump($this, true);die();
-      return $this->save();
+      $this->save();
     }
 
     public function get_all(){
@@ -48,6 +48,19 @@
       );
     }
 
-    public function user_authentication($email = '', $password = ''){
+    public function user_authentication($params = null){
+      if(isset($params->email) && isset($params->password)){
+        $response = $this->read(
+          $this->return_data(),
+          ['email' => $params->email, 'password' => $params->password]
+        );
+        if(!empty($response)){
+          return ["status" => true, "message" => "User found", "data" => $response];
+        }else{
+          return ["status" => false, "message" => "User not found"];
+        }
+      }else{
+        return ["status" => false, "message" => "Inavlid data entry"];
+      }
     }
   }

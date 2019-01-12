@@ -121,13 +121,7 @@
           $this->db->bind(":". array_keys($attributes)[$i], array_values($attributes)[$i]);
       }
 
-      try{
-        if(!$this->db->execute()) return false;
-      }catch(PDOException $e){
-        //echo "A database error occurred";
-        return false;
-        //exit;
-      }
+      if(!$this->db->execute()) return false;
     }
 
     /**
@@ -161,7 +155,7 @@
         if(!$this->db->execute()) return false;
       }catch(PDOException $e){
         echo "A database error occurred";
-        return false;
+        exit;
       }
     }
 
@@ -209,7 +203,12 @@
 
         $this->db->bind(":id", $id);
         
-        if(!$this->db->execute()) return false;
+        try{
+          if(!$this->db->execute()) return false;
+        }catch(PDOException $e){
+          //echo "A database error occurred";
+          return false;
+        }
     }	
 
     public function pagination($page = 0){

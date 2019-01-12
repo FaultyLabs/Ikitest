@@ -40,13 +40,12 @@
           $this->dbh->exec('SET NAMES "utf8"');
         }
         catch(PDOException $e){
-          $this->error = $e->getMessage();
+          echo 'Connection failed: ' . $e->getMessage();
+          exit;
         }
       }
       if(!$this->dbh){
-        function __destruct(){
-          $this->dbh = null;
-        }
+        $this->__destruct();
       }else{
         return $this->dbh;
       }
@@ -86,8 +85,14 @@
     }
 
     public function execute(){
-      if($this->stmt){
+      try{
+        if($this->stmt){
           return $this->stmt->execute();
+        }
+      }catch(Exception $e){
+        //echo 'Connection failed: ' . $e->getMessage();
+        //exit;
+        return false;
       }
     }
 
@@ -110,5 +115,10 @@
       if($this->stmt){
           return $this->stmt->rowCount();
       }
+    }
+
+    public function __destruct(){
+      $this->stmt = null;
+      $this->dbh = null;
     }
   }

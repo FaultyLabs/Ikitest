@@ -21,15 +21,29 @@
       $this->{self::$url} = $this->model(ucfirst(self::$url));
 
       if(Request::get()->getMethod() == 'POST' && Request::get()->has_post()){
-        
-        $body = (Object) json_decode(Request::get()->post());
-        $response = $this->{self::$url}->create_record($body);
-        if(!$response){
+        if(empty($id)){
+          $body = (Object) json_decode(Request::get()->post());
+          $response = $this->{self::$url}->create_record($body);
+          App::debug(json_encode($response), true);
+          if($response !== false){
+            echo json_encode([
+              "status" => true,
+              "message" => self::$url . " record created"
+            ]);
+            http_response_code(201);
+          }else{
+            echo json_encode([
+              "status" => false,
+              "message" => "unable to create new " . self::$url . " record"
+            ]);
+            http_response_code(200);
+          }
+        }else{
           echo json_encode([
-            "status" => true,
-            "message" => self::$url . " created"
+            "status" => false,
+            "message" => "Method not allowed"
           ]);
-          http_response_code(201);
+          http_response_code(405);
         }
       }
 
@@ -51,7 +65,20 @@
       }
 
       if(Request::get()->getMethod() == 'DELETE' && is_numeric($id)){
-        $this->{self::$url}->delete($id);
+        $response = $this->{self::$url}->delete($id);
+        if($response !== false){
+          echo json_encode([
+            "status" => true,
+            "message" => self::$url . " record deleted successfully"
+          ]);
+          http_response_code(200);
+        }else{
+          echo json_encode([
+            "status" => false,
+            "message" => "unable to delete record"
+          ]);
+          http_response_code(200);
+        }
       }
 
     }

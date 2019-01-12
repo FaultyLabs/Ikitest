@@ -16,13 +16,15 @@
      * Index Page for getting started
      */
     public function index($id = ''){
-      if(Request::get()->getMethod() == 'POST' && Request::get()->has_post()){
-        $body = (Object) json_decode(Request::get()->post());
-        $this->users->create($body);
-
-        http_response_code(201);
-      }
+      echo "Welcome to users api please use /api/v1/users";
+      exit;
     }
 
-
+    public function login(){
+      if(Request::get()->getMethod() == 'POST' && Request::get()->has_post()){
+        $body = (Object) json_decode(Request::get()->post());
+        http_response_code(200);
+        echo json_encode($this->users->user_authentication($body));
+      }
+    }
   }
